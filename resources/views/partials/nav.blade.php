@@ -19,6 +19,7 @@
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
         <li><a href="{{route('home')}}">Home</a></li>
+        @auth
         <li>
           <details>
             <summary>Admin</summary>
@@ -27,10 +28,29 @@
             </ul>
           </details>
         </li>
+        @endauth
       </ul>
     </div>
     <div class="navbar-end">
-      <a class="btn btn-primary me-2">Login</a>
-      <a class="btn btn-success">Register</a>
+        @guest
+            <a class="btn btn-primary me-2" href="{{route('login')}}">Login</a>
+            <a class="btn btn-success" href="{{route('register')}}">Register</a>
+        @else
+        <ul class="menu menu-horizontal px-1">
+            <li>
+              <details>
+                <summary>{{auth()->user()->name}}</summary>
+                <ul class="p-2 absolute z-20">
+                    <li>
+                        <form action="{{route('logout')}}" method="POST">
+                            @csrf
+                            <input type="submit" value="Logout">
+                        </form>
+                    </li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        @endguest
     </div>
   </div>
